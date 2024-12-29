@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 // Basic route
 app.get("/", (req, res) => {
-  res.send("Welcome to MyOwnStore backend!");
+  res.send("Welcome to the backend!");
 });
 
 // Start server
