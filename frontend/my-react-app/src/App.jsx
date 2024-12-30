@@ -1,35 +1,61 @@
+/*import React from 'react';
+import {Routes, Route} from 'react-router-dom';
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import ProductsList from './components/ProductList';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import EcommerceNavbar from './components/SearchBar';
+import ProductDetails from './components/ProductDetails';
+import Cart from './components/Cart';
 
 function App() {
-  const [count, setCount] = useState(0)
+  
 
   return (
+
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <EcommerceNavbar/>
+      <Routes>
+        <Route path="/" element={<ProductsList/>}/>
+        <Route path="/products" element={<ProductsList />} />
+        <Route path="/products/:productId" element={<ProductDetails/>}/>
+        <Route path="/" element={<Cart/>}/>
+      </Routes>
     </>
-  )
+    //<div>Hello</div>
+  );
 }
 
 export default App
+*/
+import React from 'react';
+//mport ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route ,Routes} from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './index.css';
+import Home from './components/Home';
+import ProductSearch from './components/ProductSearch';
+import ProductDetails from './components/ProductDetails';
+import Cart from './components/Cart';
+import Checkout from './components/Checkout';
+import OrderHistory from './components/OrderHistory';
+import TrackOrder from './components/TrackOrder';
+import NavScrollExample from './components/SearchBar';
+
+const App = () => {
+  return (
+    <Router>
+      <NavScrollExample />
+      <Routes>
+      <Route path="/" element={<Home />} />
+        <Route path="/search" element={<ProductSearch />} />
+        <Route path="/product/:id" element={<ProductDetails />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-history" element={<OrderHistory />} />
+        <Route path="/track-order" element={<TrackOrder />} />
+      </Routes>
+    </Router>
+  );
+};
+export default App;
