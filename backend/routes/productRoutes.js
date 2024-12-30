@@ -1,9 +1,14 @@
 const express = require("express");
 const router = express.Router();
 
-// Define your routes
-router.get("/", (req, res) => {
-  res.send("Product route");
-});
+// Controller functions
+const {
+  getAllProducts,
+  getProductById,
+} = require("../controllers/productController");
+
+// Routes
+router.get("/", getAllProducts); // Endpoint: GET /api/products/
+router.get("/:id", getProductById); // Endpoint: GET /api/products/:id
 
 module.exports = router;
