@@ -28,8 +28,7 @@ function App() {
 
 export default App
 */
-import React from "react";
-//mport ReactDOM from 'react-dom';
+
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
@@ -54,6 +53,7 @@ const App = () => {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-history" element={<OrderHistory />} />
         <Route path="/track-order" element={<TrackOrder />} />
+        {/* <Route path="/profile" element={<Profile />} /> */}
       </Routes>
     </Router>
   );

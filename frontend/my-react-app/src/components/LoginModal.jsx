@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const LoginModal = ({ show, handleClose }) => {
+const LoginModal = ({ show, handleClose, setIsLoggedIn, fetchUserDetails }) => {
   const [loginForm, setLoginForm] = useState({ email: "", password: "" });
 
   const handleChange = (e) => {
@@ -19,6 +19,8 @@ const LoginModal = ({ show, handleClose }) => {
       const data = await response.json();
       if (response.ok) {
         localStorage.setItem("token", data.token);
+        setIsLoggedIn(true);
+        fetchUserDetails(data.token);
         alert("Login successful!");
         handleClose();
       } else {

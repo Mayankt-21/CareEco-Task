@@ -1,7 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Modal, Form, Button } from "react-bootstrap";
 
-const SignupModal = ({ show, handleClose }) => {
+const SignupModal = ({
+  show,
+  handleClose,
+  setIsLoggedIn,
+  fetchUserDetails,
+}) => {
   const [signupForm, setSignupForm] = useState({
     name: "",
     email: "",
@@ -23,7 +28,27 @@ const SignupModal = ({ show, handleClose }) => {
       const data = await response.json();
       if (response.ok) {
         alert("Signup successful!");
-        handleClose();
+        // Auto-login after signup
+        const loginResponse = await fetch(
+          "http://localhost:5000/api/users/login",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              email: signupForm.email,
+              password: signupForm.password,
+            }),
+          }
+        );
+        const loginData = await loginResponse.json();
+        if (loginResponse.ok) {
+          localStorage.setItem("token", loginData.token);
+          setIsLoggedIn(true);
+          fetchUserDetails(loginData.token);
+          handleClose();
+        } else {
+          alert(`Error during auto-login: ${loginData.message}`);
+        }
       } else {
         alert(`Error: ${data.message}`);
       }

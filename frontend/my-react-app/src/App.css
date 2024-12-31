@@ -17,6 +17,18 @@
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
+.profile-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4caf50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 @keyframes logo-spin {
   from {
