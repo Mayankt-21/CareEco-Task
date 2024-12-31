@@ -9,6 +9,8 @@ const NavScrollExample = () => {
   const [userName, setUserName] = useState("");
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [searchQuery, setSearchQuery] = useState(""); // Track search input
+  const [suggestions, setSuggestions] = useState([]); // Track search suggestions
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,6 +72,36 @@ const NavScrollExample = () => {
     navigate("/profile");
   };
 
+  const handleSearchChange = async (event) => {
+    const query = event.target.value;
+    setSearchQuery(query);
+
+    // Start searching after typing at least 2 characters
+    if (query.length > 1) {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/products/suggestions?q=${query}`
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setSuggestions(data); // Populate suggestions with the results
+        } else {
+          console.error("Error fetching suggestions:", data.message);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    } else {
+      setSuggestions([]); // Clear suggestions if query is too short
+    }
+  };
+
+  const handleSuggestionClick = (suggestion) => {
+    setSearchQuery(suggestion);
+    setSuggestions([]); // Clear suggestions
+    navigate(`/search?q=${suggestion}`); // Navigate to search page with the query
+  };
+
   return (
     <>
       <Navbar expand="lg" className="bg-body-tertiary">
@@ -82,14 +114,53 @@ const NavScrollExample = () => {
               <Nav.Link href="/search">Search</Nav.Link>
               <Nav.Link href="/cart">Cart</Nav.Link>
             </Nav>
-            <Form className="d-flex me-3">
+            <Form className="d-flex position-relative me-3">
               <Form.Control
                 type="search"
                 placeholder="Search products..."
                 className="me-2"
                 aria-label="Search"
+                value={searchQuery}
+                onChange={handleSearchChange} // Handles the search query change
               />
-              <Button variant="outline-success">Search</Button>
+              <Button
+                variant="outline-success"
+                onClick={() => navigate(`/search?q=${searchQuery}`)} // Redirects to search page
+              >
+                Search
+              </Button>
+
+              {/* Displaying search suggestions */}
+              {suggestions.length > 0 && (
+                <div
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    left: 0,
+                    zIndex: 1000,
+                    backgroundColor: "white",
+                    border: "1px solid #ccc",
+                    borderRadius: "4px",
+                    width: "100%",
+                    maxHeight: "200px",
+                    overflowY: "auto",
+                  }}
+                >
+                  {suggestions.map((item, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleSuggestionClick(item)}
+                      style={{
+                        padding: "8px",
+                        cursor: "pointer",
+                        borderBottom: "1px solid #f1f1f1",
+                      }}
+                    >
+                      {item}
+                    </div>
+                  ))}
+                </div>
+              )}
             </Form>
             <div className="d-flex">
               {!isLoggedIn ? (

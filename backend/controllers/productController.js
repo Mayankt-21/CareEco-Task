@@ -1,6 +1,6 @@
 const Product = require("../models/Product");
 
-// Get all products
+// Existing getAllProducts function (unchanged)
 const getAllProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -14,7 +14,6 @@ const getAllProducts = async (req, res) => {
   }
 };
 
-// Get a product by ID
 const getProductById = async (req, res) => {
   const { id } = req.params;
 
@@ -30,7 +29,59 @@ const getProductById = async (req, res) => {
   }
 };
 
+// New searchProducts function (added)
+const searchProducts = async (req, res) => {
+  const { query } = req.query;
+
+  try {
+    const results = await Product.aggregate([
+      {
+        $search: {
+          index: "prods_search", // Specify the name of your index
+          compound: {
+            should: [
+              {
+                text: {
+                  query,
+                  path: "name", // Search on name field
+                  fuzzy: {
+                    maxEdits: 2,
+                    prefixLength: 1,
+                  },
+                },
+              },
+              {
+                text: {
+                  query,
+                  path: "category", // Search on category field
+                  fuzzy: {
+                    maxEdits: 1,
+                    prefixLength: 1,
+                  },
+                },
+              },
+              {
+                text: {
+                  query,
+                  path: "description", // Search on description field
+                },
+              },
+            ],
+          },
+        },
+      },
+      { $limit: 10 },
+    ]);
+
+    res.status(200).json(results);
+  } catch (error) {
+    console.error("Error during search:", error);
+    res.status(500).json({ message: "Search failed" });
+  }
+};
+
 module.exports = {
   getAllProducts,
-  getProductById,
+  getProductById, // Assuming this function already exists
+  searchProducts, // Add this new function
 };
