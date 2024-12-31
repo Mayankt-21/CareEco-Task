@@ -142,7 +142,7 @@ const EcommerceNavbar = ({onCategoryChange,onSearch})=> {
 }
 
 export default EcommerceNavbar;
-*/
+
 
 import React from 'react';
 import { Link } from 'react-router-dom';
@@ -189,5 +189,113 @@ const NavBar = () => {
 };
 
 export default NavBar;
+*/
 
+import React, { useState } from 'react';
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Form from 'react-bootstrap/Form';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import Modal from 'react-bootstrap/Modal';
+
+function NavScrollExample() {
+  const [showLogin, setShowLogin] = useState(false);
+  const [showSignup, setShowSignup] = useState(false);
+
+  const handleCloseLogin = () => setShowLogin(false);
+  const handleShowLogin = () => setShowLogin(true);
+
+  const handleCloseSignup = () => setShowSignup(false);
+  const handleShowSignup = () => setShowSignup(true);
+
+  return (
+    <>
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container fluid>
+          <Navbar.Brand href="#">E-Commerce Portal</Navbar.Brand>
+          <Navbar.Toggle aria-controls="navbarScroll" />
+          <Navbar.Collapse id="navbarScroll">
+            <Nav className="me-auto my-2 my-lg-0" navbarScroll>
+              <Nav.Link href="/">Home</Nav.Link>
+              <Nav.Link href="/search">Search</Nav.Link>
+              <Nav.Link href="/cart">Cart</Nav.Link>
+            </Nav>
+            <Form className="d-flex me-3">
+              <Form.Control
+                type="search"
+                placeholder="Search products..."
+                className="me-2"
+                aria-label="Search"
+              />
+              <Button variant="outline-success">Search</Button>
+            </Form>
+            <div className="d-flex">
+              <Button variant="outline-primary" onClick={handleShowLogin} className="mx-2">
+                Login
+              </Button>
+              <Button variant="outline-success" onClick={handleShowSignup}>
+                Sign Up
+              </Button>
+            </div>
+          </Navbar.Collapse>
+        </Container>
+      </Navbar>
+
+      {/* Login Modal */}
+      <Modal show={showLogin} onHide={handleCloseLogin} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Login</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formLoginEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formLoginPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Password" />
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              Login
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+
+      {/* Signup Modal */}
+      <Modal show={showSignup} onHide={handleCloseSignup} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Sign Up</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Group className="mb-3" controlId="formSignupName">
+              <Form.Label>Full Name</Form.Label>
+              <Form.Control type="text" placeholder="Enter your name" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formSignupEmail">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control type="email" placeholder="Enter email" />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formSignupPassword">
+              <Form.Label>Password</Form.Label>
+              <Form.Control type="password" placeholder="Create a password" />
+            </Form.Group>
+
+            <Button variant="success" type="submit">
+              Sign Up
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+    </>
+  );
+}
+
+export default NavScrollExample;
 

@@ -23,7 +23,7 @@ const Cart = () => {
 
 export default Cart;
 */
-import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([
@@ -64,4 +64,64 @@ const Cart = () => {
   );
 };
 
+export default Cart;*/
+
+import React, { useState } from 'react';
+
+const Cart = () => {
+  const [cartItems, setCartItems] = useState([]);
+
+  const handleQuantityChange = (id, amount) => {
+    setCartItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, quantity: item.quantity + amount } : item
+      )
+    );
+  };
+
+  const handleRemove = (id) => {
+    setCartItems((items) => items.filter((item) => item.id !== id));
+  };
+
+  const handleAddToCart = (product) => {
+    setCartItems((items) => {
+      // Check if the product is already in the cart
+      const existingProduct = items.find((item) => item.id === product.id);
+      if (existingProduct) {
+        // If it is, update the quantity
+        return items.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      } else {
+        // If it's not, add it to the cart
+        return [...items, { ...product, quantity: 1 }];
+      }
+    });
+  };
+
+  return (
+    <div>
+      <h2>Your Cart</h2>
+      {cartItems.length > 0 ? (
+        <ul>
+          {cartItems.map((item) => (
+            <li key={item.id}>
+              {item.name} - ${item.price} x {item.quantity}
+              <button onClick={() => handleQuantityChange(item.id, 1)}>+</button>
+              <button onClick={() => handleQuantityChange(item.id, -1)}>-</button>
+              <button onClick={() => handleRemove(item.id)}>Remove</button>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>Your cart is empty</p>
+      )}
+      <button>Proceed to Checkout</button>
+    </div>
+  );
+};
+
 export default Cart;
+
