@@ -28,26 +28,26 @@ function App() {
 
 export default App
 */
-import React from 'react';
+import React from "react";
 //mport ReactDOM from 'react-dom';
-import { BrowserRouter as Router, Route ,Routes} from 'react-router-dom';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './index.css';
-import Home from './components/Home';
-import ProductSearch from './components/ProductSearch';
-import ProductDetails from './components/ProductDetails';
-import Cart from './components/Cart';
-import Checkout from './components/Checkout';
-import OrderHistory from './components/OrderHistory';
-import TrackOrder from './components/TrackOrder';
-import NavScrollExample from './components/SearchBar';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
+import Home from "./components/Home";
+import ProductSearch from "./components/ProductSearch";
+import ProductDetails from "./components/ProductDetails";
+import Cart from "./components/Cart";
+import Checkout from "./components/Checkout";
+import OrderHistory from "./components/OrderHistory";
+import TrackOrder from "./components/TrackOrder";
+import NavScrollExample from "./components/SearchBar";
 
 const App = () => {
   return (
     <Router>
       <NavScrollExample />
       <Routes>
-      <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home />} />
         <Route path="/search" element={<ProductSearch />} />
         <Route path="/product/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
